@@ -1,4 +1,4 @@
-# config/services.yaml
+# src/Resources/config/services.yaml
 services:
   _defaults:
     autowire: true
@@ -6,4 +6,4 @@ services:
 
   Mar-ke\ContaoFrontendPostitBundle\EventListener\GeneratePageListener:
     tags:
-      - { name: contao.hook, hook: generatePage }
+      - { name: 'contao.hook', hook: 'generatePage' }

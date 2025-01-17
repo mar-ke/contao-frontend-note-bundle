@@ -1,7 +1,7 @@
 <?php
 
 // src/EventListener/GeneratePageListener.php
-namespace App\EventListener;
+namespace Mar-ke\ContaoFrontendPostitBundle\EventListener;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\PageRegular;
