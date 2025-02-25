@@ -1,0 +1,97 @@
+
+.post-it .tape {
+  background-color: #eeeeeeba;
+  width: 80%;
+  height: 30px;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.post-it .tape:hover {
+  cursor: grab;
+}
+
+.post-it {
+  background: wheat;
+  z-index: 10;
+  padding: 10px;
+  position: absolute;
+  width: 200px;
+  box-shadow: -5px 5px 20px #0001;
+  rotate: 3deg;
+}
+
+.post-it.isDragged {
+  box-shadow: -5px 5px 20px #0003;
+}
+
+.post-it .content {
+    margin-top: 15px;
+    display: grid;
+    min-height: 140px;
+    align-content: space-between;
+}
+
+.post-it-toolbox {
+    position: fixed;
+    top: 180px;
+    right: 0;
+    background: #0000009e;
+    padding: 10px;
+    z-index: 10;
+    font-size: 25px;
+    color: white;
+}
+
+.post-it-toolbox {
+    position: fixed;
+    top: 180px;
+    right: 0;
+    background: #0006;
+    padding: 10px;
+    z-index: 5;
+}
+
+.post-it .title textarea {
+    background-color: #0000;
+    border: 0;
+    font-size: 1em;
+    padding: 0;
+    resize: none;
+    position: absolute;
+    left: 10px;
+    right: -10px;
+    top: 20px;
+    bottom: 30px;
+    width: calc(100% - 20px);
+}
+
+.post-it .title textarea:focus-visible {
+    outline: 0;
+}
+
+.hide-post-its .post-it {
+    display: none;
+}
+
+.pi-color-palette {
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    display: inline-block;
+    border: 1px solid #000000b2;
+}
+
+[data-bgcolor="wheat"] {
+    background-color:wheat;
+}
+
+[data-bgcolor="red"] {
+    background-color:red;
+}
+
+.saveIcon {
+  display: inline-block;
+}

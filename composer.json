@@ -1,0 +1,36 @@
+{
+    "name": "marke/post-it-bundle",
+    "description": "Macht die Zusammenarbeit in Contao so einfach wie nie zuvor",
+    "version": "0.1",
+    "license": "LGPL-3.0+",
+    "type": "contao-bundle",
+    "authors": [
+        {
+            "name": "Marvin Kellermann | Digitalagentur MarKe UG",
+            "homepage": "https://mar-ke.de"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Marke\\PostItBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Marke\\PostItBundle\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "contao-manager-plugin": "Marke\\PostItBundle\\ContaoManager\\Plugin"
+    },
+    "scripts": {
+        "all": [
+            "@unit-tests",
+            "@ecs",
+            "@phpstan"
+        ],
+        "ecs": "@php tools/ecs/vendor/bin/ecs check src tests --config ecs.php --fix --ansi",
+        "phpstan": "@php tools/phpstan/vendor/bin/phpstan analyze --ansi",
+        "unit-tests": "@php vendor/bin/phpunit --colors=always"
+    }
+}
