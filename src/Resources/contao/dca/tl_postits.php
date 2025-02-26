@@ -85,8 +85,8 @@ $GLOBALS['TL_DCA']['tl_postits'] = [
         'title' => [
             'search' => true,
             'inputType' => 'text',
-            'eval' => ['tl_class' => 'w50', 'maxlength' => 255, 'mandatory' => true],
-            'sql' => "varchar(255) NOT NULL default ''",
+            'eval' => ['tl_class' => 'w50', 'mandatory' => true],
+            'sql' => "TEXT NOT NULL default ''",
         ],
         'yCoordinate' => [
             'inputType' => 'text',
@@ -120,8 +120,8 @@ $GLOBALS['TL_DCA']['tl_postits'] = [
         ],
         'userinfo' => [
             'inputType' => 'text',
-            'eval' => ['tl_class' => 'w50', 'maxlength' => 255, 'mandatory' => true],
-            'sql' => "varchar(255) NOT NULL default ''",
+            'eval' => ['tl_class' => 'w50', 'mandatory' => true],
+            'sql' => "TEXT NOT NULL default ''",
         ],
     ],
 
