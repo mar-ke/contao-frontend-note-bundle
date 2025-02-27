@@ -1,3 +1,5 @@
+let mouseOverTape = false;
+
 function setCookie(cname, cvalue) {
   const d = new Date();
   d.setTime(d.getTime() + (28*24*60*60*1000));
@@ -123,8 +125,6 @@ function positionPostIts() {
         const width = article.offsetWidth;
         
         // Position für das Element berechnen
-        console.log(height + " * " + (yCoordinate / 100) + " + " + top)
-        console.log(article.offsetTop);
         
         let newTop = top + height * (yCoordinate / 100);
         let newLeft = left + width * (xCoordinate / 100);
@@ -153,7 +153,7 @@ function enableDrag(postIt, article) {
 
     postIt.addEventListener('mousedown', (event) => {
         
-        if (event.button === 0) { 
+        if (event.button === 0 && mouseOverTape) { 
             isDragging = true;
             startX = event.clientX;
             startY = event.clientY;
@@ -198,7 +198,9 @@ function enableDrag(postIt, article) {
             const allArticles = document.querySelectorAll('.mod_article.block');
             let targetArticle = null;
 
-            allArticles.forEach(article => {
+
+            // Zunächst nach dem Artikel in der Mitte suchen
+            for (let article of allArticles) {
                 const articleRect = article.getBoundingClientRect();
                 if (
                     event.clientX >= articleRect.left &&
@@ -207,8 +209,27 @@ function enableDrag(postIt, article) {
                     event.clientY <= articleRect.bottom
                 ) {
                     targetArticle = article;
+                    break;
                 }
-            });
+            }
+
+            // Falls kein Artikel gefunden wurde, suche den nächsthöheren
+            if (!targetArticle) {
+                for (let i = allArticles.length - 1; i >= 0; i--) {
+                    const article = allArticles[i];
+                    const articleRect = article.getBoundingClientRect();
+                    if (articleRect.bottom <= event.clientY) {
+                        targetArticle = article;
+                        break;
+                    }
+                }
+            }
+
+            // Falls immer noch kein Artikel gefunden wurde, nehme den ersten
+            if (!targetArticle) {
+                targetArticle = allArticles[0] || null;
+            }
+
 
             if (targetArticle) {
                 const articleRect = targetArticle.getBoundingClientRect();
@@ -351,25 +372,10 @@ function changePostItBgC(element) {
 
 
 
-// initialize
 
-window.addEventListener('load', function() {
-    positionPostIts();
-    togglePostItVisibility();
-    iniTogglePostItVisibilityIcon();
-    checkVisibility();
-    iniColorPalette();
-    iniCreateIcon();
-});
 
 // Eventlistener hinzufügen, um alle .post-it-Elemente neu zu positionieren, wenn das Fenster neu skaliert wird
 window.addEventListener('resize', positionPostIts);
-
-
-
-
-
-
 
 const newPostItHTML = `
 <div id="postit_new" class="post-it" data-yCoordinate="" data-xCoordinate="" data-pArticle="">
@@ -397,19 +403,36 @@ function createNewPostIt(newPostItHTML) {
     const allArticles = document.querySelectorAll('.mod_article.block');
     let targetArticle = null;
 
-    allArticles.forEach(article => {
-        const articleRect = article.getBoundingClientRect();console.log(windowYCenter);console.log(articleRect.top)
+    // Zunächst nach dem Artikel in der Mitte suchen
+    for (let article of allArticles) {
+        const articleRect = article.getBoundingClientRect();
         if (
-            
             windowXCenter >= articleRect.left + window.scrollX &&
             windowXCenter <= articleRect.right + window.scrollX &&
             windowYCenter >= articleRect.top + window.scrollY &&
             windowYCenter <= articleRect.bottom + window.scrollY
         ) {
             targetArticle = article;
-            console.log(targetArticle)
+            break;
         }
-    });
+    }
+
+    // Falls kein Artikel gefunden wurde, suche den nächsthöheren
+    if (!targetArticle) {
+        for (let i = allArticles.length - 1; i >= 0; i--) {
+            const article = allArticles[i];
+            const articleRect = article.getBoundingClientRect();
+            if (articleRect.bottom <= windowYCenter) {
+                targetArticle = article;
+                break;
+            }
+        }
+    }
+
+    // Falls immer noch kein Artikel gefunden wurde, nehme den ersten
+    if (!targetArticle) {
+        targetArticle = allArticles[0] || null;
+    }
     
     const userInfoObj = {
         
@@ -450,3 +473,27 @@ function createNewPostIt(newPostItHTML) {
 }
 
 
+function setTapeEventListener() {
+    document.querySelectorAll('.tape').forEach(tape => {
+        tape.addEventListener('pointerenter', () => {
+            mouseOverTape = true;
+        });
+
+        tape.addEventListener('pointerleave', () => {
+            mouseOverTape = false;
+        });
+    });
+}
+
+
+// initialize
+
+window.addEventListener('load', function() {
+    positionPostIts();
+    // togglePostItVisibility();
+    // iniTogglePostItVisibilityIcon();
+    // checkVisibility();
+    iniColorPalette();
+    iniCreateIcon();
+    setTapeEventListener();
+});

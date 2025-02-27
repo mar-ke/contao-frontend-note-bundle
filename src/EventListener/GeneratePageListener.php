@@ -136,7 +136,7 @@ class GeneratePageListener
         
         $toolbox_html = '
             <div class="post-it-toolbox">
-                <div id="post-it-visibility-toggler"><i class="fa-solid fa-eye"></i></div>
+                <div style="display:none" id="post-it-visibility-toggler"><i class="fa-solid fa-eye"></i></div>
                 <div id="post-it-new-element-icon"><i class="fa-solid fa-circle-plus"></i></div>
                 
             </div>
