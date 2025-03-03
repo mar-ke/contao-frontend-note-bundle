@@ -3,6 +3,6 @@ services:
         autoconfigure: true
 
     marke_postit.listener.generate_page:
-        class: Marke\PostItBundle\EventListener\GeneratePageListener
+        class: Marke\FrontendNoteBundle\EventListener\GeneratePageListener
         arguments:
             - '@contao.security.token_checker'

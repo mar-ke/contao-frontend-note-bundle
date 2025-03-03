@@ -1,5 +1,5 @@
 {
-    "name": "marke/post-it-bundle",
+    "name": "marke/frontend-note-bundle",
     "description": "Macht die Zusammenarbeit in Contao so einfach wie nie zuvor",
     "version": "0.1.2",
     "license": "LGPL-3.0+",
@@ -12,16 +12,16 @@
     ],
     "autoload": {
         "psr-4": {
-            "Marke\\PostItBundle\\": "src/"
+            "Marke\\FrontendNoteBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Marke\\PostItBundle\\Tests\\": "tests/"
+            "Marke\\FrontendNoteBundle\\Tests\\": "tests/"
         }
     },
     "extra": {
-        "contao-manager-plugin": "Marke\\PostItBundle\\ContaoManager\\Plugin"
+        "contao-manager-plugin": "Marke\\FrontendNoteBundle\\ContaoManager\\Plugin"
     },
     "scripts": {
         "all": [

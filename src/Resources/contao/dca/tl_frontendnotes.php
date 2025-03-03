@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-// contao/dca/tl_postits.php
+// contao/dca/tl_frontendnotes.php
 use Contao\DataContainer;
 use Contao\DC_Table;
 use Contao\Backend;
 
 \Contao\System::loadLanguageFile('tl_page');
 
-class tl_postits 
+class tl_frontendnotes 
 {
-    public static function listPostits(array $arrRow): string
+    public static function listFrontendNotes(array $arrRow): string
     {
         // Load the page model
         $objPage = \Contao\PageModel::findByPk($arrRow['page']);
@@ -32,7 +32,7 @@ class tl_postits
     }
 }
 
-$GLOBALS['TL_DCA']['tl_postits'] = [
+$GLOBALS['TL_DCA']['tl_frontendnotes'] = [
     'config' => [
         'dataContainer' => DC_Table::class,
         'enableVersioning' => true,
@@ -56,8 +56,8 @@ $GLOBALS['TL_DCA']['tl_postits'] = [
         'label' => [
             'fields' => ['title'],
             'format' => '%s',
-            'label_callback' => ['tl_postits', 'listPostits'],
-            'group_callback' => ['tl_postits', 'groupByPage']
+            'label_callback' => ['tl_frontendnotes', 'listFrontendNotes'],
+            'group_callback' => ['tl_frontendnotes', 'groupByPage']
         ],
         'operations' => [
             'edit' => [

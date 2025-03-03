@@ -1,3 +1,3 @@
 <?php
 
-$GLOBALS['TL_LANG']['MOD']['postits'] = ['Post-its', 'Verwalten Sie Post-its'];
+$GLOBALS['TL_LANG']['MOD']['frontendnotes'] = ['Frontend Notes', 'Verwalte deine Frontend Notes'];

@@ -1,7 +1,7 @@
 <?php
 
 // src/EventListener/GeneratePageListener.php
-namespace Marke\PostItBundle\EventListener;
+namespace Marke\FrontendNoteBundle\EventListener;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\PageRegular;
@@ -49,7 +49,7 @@ class GeneratePageListener
 
                         $updatePostit = \Contao\Database::getInstance()->prepare("
 
-                            UPDATE tl_postits 
+                            UPDATE tl_frontendnotes 
                             SET title = ?, yCoordinate = ?, xCoordinate = ?, pArticle = ?, bgColor = ? WHERE id = ? 
 
                         ")->execute($title, $yCoordinate, $xCoordinate, $pArticle, $bgColor, $postItId);
@@ -58,7 +58,7 @@ class GeneratePageListener
 
                         $createPostit = \Contao\Database::getInstance()->prepare("
 
-                            INSERT INTO tl_postits (tstamp, title, yCoordinate, xCoordinate, pArticle, bgColor, userinfo,page)
+                            INSERT INTO tl_frontendnotes (tstamp, title, yCoordinate, xCoordinate, pArticle, bgColor, userinfo,page)
                             VALUES (?, ?,?,?,?,?,?,?); 
 
                         ")->execute($tstamp, $title, $yCoordinate, $xCoordinate, $pArticle, $bgColor, $userinfo, $pageId);
@@ -71,7 +71,7 @@ class GeneratePageListener
             
                 $createPostit = \Contao\Database::getInstance()->prepare("
 
-                    DELETE FROM tl_postits 
+                    DELETE FROM tl_frontendnotes 
                     WHERE id = ?
         
                 ")->execute($postItId);
@@ -90,7 +90,7 @@ class GeneratePageListener
         $loadPostIt = \Contao\Database::getInstance()->prepare("
 
             SELECT title,yCoordinate,xCoordinate,pArticle,id,bgColor
-            FROM tl_postits 
+            FROM tl_frontendnotes 
             WHERE page = ?
 
         ")->execute($pageId);
@@ -117,6 +117,7 @@ class GeneratePageListener
                     </div>
                     <div class="settings-bar">
                         <div class="saveIcon" onclick="savePostItData(`postit_'.$id.'`)"> 
+                            <i class="fa-solid fa-floppy-disk"></i> 
                             <i class="fa-solid fa-floppy-disk"></i> 
                         </div>
                         <div class="pi-color-palette" data-bgColor="wheat" data-pPostIt="postit_'.$id.'"></div>
@@ -154,8 +155,6 @@ class GeneratePageListener
     
     public function __invoke(PageModel $pageModel, LayoutModel $layout, PageRegular $pageRegular): void
     {
-        
-        
 
         if ($this->tokenChecker->hasBackendUser()) { 
             
@@ -167,8 +166,8 @@ class GeneratePageListener
             $GLOBALS['TL_BODY'][] = $this->loadPostits($pageId);
             $GLOBALS['TL_BODY'][] = "<script>const contaoPageId=" . $pageId ."</script>";
             
-            $GLOBALS['TL_JAVASCRIPT'][] = "/bundles/markepostit/js/main.js";
-            $GLOBALS['TL_CSS'][] = "/bundles/markepostit/css/main.css";
+            $GLOBALS['TL_JAVASCRIPT'][] = "/bundles/markefrontendnote/js/main.js";
+            $GLOBALS['TL_CSS'][] = "/bundles/markefrontendnote/css/main.css";
         
         }
 
