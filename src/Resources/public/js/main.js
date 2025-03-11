@@ -469,12 +469,15 @@ function createNewPostIt(newPostItHTML) {
     // Das neue Element ans Ende des Body anhängen
     document.body.append(newElement);
     
+    setTapeEventListener();
+    
     
 }
 
 
 function setTapeEventListener() {
     document.querySelectorAll('.tape').forEach(tape => {
+        
         tape.addEventListener('pointerenter', () => {
             mouseOverTape = true;
         });

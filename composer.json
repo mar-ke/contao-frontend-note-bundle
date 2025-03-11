@@ -1,7 +1,7 @@
 {
     "name": "marke/frontend-note-bundle",
     "description": "Macht die Zusammenarbeit in Contao so einfach wie nie zuvor",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "license": "LGPL-3.0+",
     "type": "contao-bundle",
     "authors": [
