@@ -30,7 +30,7 @@ function getCookie(cname) {
 
 function togglePostItVisibility() {
         
-    const postItVisibilityToggler = document.getElementById("post-it-visibility-toggler");
+    const postItVisibilityToggler = document.getElementById("frontend-note-visibility-toggler");
     
     
     if ( postItVisibilityToggler ) {
@@ -39,13 +39,13 @@ function togglePostItVisibility() {
         
         postItVisibilityToggler.addEventListener("click", function (e) {
 
-            if ( getCookie('pi-visibility') == "1" ) {
-                setCookie('pi-visibility', 0)
+            if ( getCookie('fen-visibility') == "1" ) {
+                setCookie('fen-visibility', 0)
                 
                 eyeIcon.className = "fa-solid fa-eye-slash"
                 
             } else {
-                setCookie('pi-visibility', 1)
+                setCookie('fen-visibility', 1)
                 
                 
                 eyeIcon.className = "fa-solid fa-eye"
@@ -63,14 +63,14 @@ function togglePostItVisibility() {
 
 function iniTogglePostItVisibilityIcon() {
         
-    const postItVisibilityToggler = document.getElementById("post-it-visibility-toggler");
+    const postItVisibilityToggler = document.getElementById("frontend-note-visibility-toggler");
     
     
     if ( postItVisibilityToggler ) {
     
         const eyeIcon = postItVisibilityToggler.getElementsByTagName('i')[0];
 
-        if ( getCookie('pi-visibility') == "1" ) {
+        if ( getCookie('fen-visibility') == "1" ) {
             eyeIcon.className = "fa-solid fa-eye"
         } else {
             eyeIcon.className = "fa-solid fa-eye-slash"
@@ -83,7 +83,7 @@ function iniTogglePostItVisibilityIcon() {
 
 function iniColorPalette() {
     
-    const elements = document.querySelectorAll('.pi-color-palette');
+    const elements = document.querySelectorAll('.fen-color-palette');
 
     elements.forEach(element => {
         element.onclick = function() {
@@ -95,7 +95,7 @@ function iniColorPalette() {
 
 function iniCreateIcon() {
     
-    const createIcon = document.getElementById('post-it-new-element-icon');
+    const createIcon = document.getElementById('frontend-note-new-element-icon');
 
     createIcon.onclick = function() {
         createNewPostIt(newPostItHTML); 
@@ -103,9 +103,9 @@ function iniCreateIcon() {
 
 }
 	
-// Funktion, die alle vorhandenen .post-it-Elemente im DOM positioniert
+// Funktion, die alle vorhandenen .frontend-note-Elemente im DOM positioniert
 function positionPostIts() {
-    const postIts = document.querySelectorAll('.post-it');
+    const postIts = document.querySelectorAll('.frontend-note');
 
     postIts.forEach(postIt => {
         const articleId = postIt.getAttribute('data-pArticle');
@@ -194,7 +194,7 @@ function enableDrag(postIt, article) {
             
             postIt.classList.toggle('isDragged')
 
-            // Überprüfen, über welchem Artikel sich das Post-it befindet
+            // Überprüfen, über welchem Artikel sich das frontend-note befindet
             const allArticles = document.querySelectorAll('.mod_article.block');
             let targetArticle = null;
 
@@ -242,6 +242,9 @@ function enableDrag(postIt, article) {
                 postIt.setAttribute('data-yCoordinate', newY.toFixed(2));
                 postIt.setAttribute('data-xCoordinate', newX.toFixed(2));
                 postIt.setAttribute('data-pArticle', targetArticle.id);
+                
+                postIt.classList.remove('saved')
+                
             }
         }
     });
@@ -250,10 +253,14 @@ function enableDrag(postIt, article) {
 function savePostItData(postItId) {
     
     const postIt = document.getElementById(postItId);
-
+    const saveIcon = postIt.getElementsByClassName('saveIcon')[0];
+    
+    postIt.classList.add('saved')
+    saveIcon.innerHTML = '<i class="fa-solid fa-spinner"></i>' ;
+    
     let id;
     
-    // Die Parameter aus den Attributen des Post-its extrahieren
+    // Die Parameter aus den Attributen des frontend-notes extrahieren
     if ( postIt.id == "postit_new" ) {
         id = encodeURIComponent("postit_new"); 
 
@@ -287,7 +294,11 @@ function savePostItData(postItId) {
         return response.text(); // Einfacher Text als Antwort
     })
     .then(responseData => {
-        console.log('Post-it-Daten erfolgreich gespeichert:', responseData);
+        if (responseData == "true") {
+            
+            saveIcon.innerHTML = '<i class="fa-solid fa-floppy-disk"></i>' ;
+            
+        }
         
         if (id == "postit_new" ) {
 
@@ -302,7 +313,6 @@ function savePostItData(postItId) {
     
 } 
 
-
 function deletePostItData(postItId) {
     
     const postIt = document.getElementById(postItId);
@@ -312,7 +322,9 @@ function deletePostItData(postItId) {
     const params = `id=${id}&action=delete`;
     const url = `${window.location.href}?${params}`;
 
-    console.log(url);
+    postIt.getElementsByClassName('deleteIcon')[0].innerHTML = '<i class="fa-solid fa-spinner"></i>' ;
+    
+    
 
     // GET-Anfrage senden
     fetch(url, {
@@ -325,7 +337,7 @@ function deletePostItData(postItId) {
         return response.text(); // Einfacher Text als Antwort
     })
     .then(responseData => {
-        console.log('Post-it-Daten erfolgreich gespeichert:', responseData);
+        console.log(responseData);
         
         window.location.reload()
 
@@ -337,21 +349,19 @@ function deletePostItData(postItId) {
     
 }
 
-
-
 function checkVisibility() {
     
     const bodyTag = document.getElementsByTagName('body')[0];
     
-    if ( getCookie('pi-visibility') == "1" && bodyTag.classList.contains('hide-post-its') ) {
+    if ( getCookie('fen-visibility') == "1" && bodyTag.classList.contains('hide-frontend-notes') ) {
         
-        bodyTag.classList.remove('hide-post-its')
+        bodyTag.classList.remove('hide-frontend-notes')
         
     } 
     
-    if ( getCookie('pi-visibility') == "0" && !bodyTag.classList.contains('hide-post-its') ) {
+    if ( getCookie('fen-visibility') == "0" && !bodyTag.classList.contains('hide-frontend-notes') ) {
         
-        bodyTag.classList.add('hide-post-its')
+        bodyTag.classList.add('hide-frontend-notes')
         
     } 
     
@@ -365,24 +375,27 @@ function changePostItBgC(element) {
     const ppostit = document.getElementById(ppostitId);
     
     
-    ppostit.setAttribute("data-bgColor",bgColor)
-    
+    ppostit.setAttribute("data-bgColor",bgColor);
+    ppostit.classList.remove('saved');
     
 }
 
+function saveable(postItId) {
+    
+    const postIt = document.getElementById(postItId);
+    postIt.classList.remove('saved')
+    
+}
 
-
-
-
-// Eventlistener hinzufügen, um alle .post-it-Elemente neu zu positionieren, wenn das Fenster neu skaliert wird
+// Eventlistener hinzufügen, um alle .frontend-note-Elemente neu zu positionieren, wenn das Fenster neu skaliert wird
 window.addEventListener('resize', positionPostIts);
 
 const newPostItHTML = `
-<div id="postit_new" class="post-it" data-yCoordinate="" data-xCoordinate="" data-pArticle="">
+<div id="postit_new" class="frontend-note" data-yCoordinate="" data-xCoordinate="" data-pArticle="">
     <div class="tape"></div>
     <div class="content">
         <div class="title">
-            <textarea>Neues Post-It - hier Text verändern</textarea>
+            <textarea>Neuer Frontend-Note - hier Text verändern</textarea>
         </div>
         <div class="settings-bar">
             <div class="saveIcon" onclick="savePostItData('postit_new')">
@@ -450,7 +463,7 @@ function createNewPostIt(newPostItHTML) {
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = newPostItHTML; // HTML-Code in das temporäre Element laden
 
-    // Das erste Kind (das neue Post-It) extrahieren
+    // Das erste Kind (das neue frontend-note) extrahieren
     const newElement = tempDiv.firstElementChild;
     
     newElement.style.top = `${windowYCenter}px`;

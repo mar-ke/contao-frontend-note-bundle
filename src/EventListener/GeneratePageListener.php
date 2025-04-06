@@ -21,6 +21,27 @@ class GeneratePageListener
     {
     }
 
+    
+    private function checkResponse() {
+
+            header('Content-Type: application/json');
+            
+            // für Insert nehme ich 
+            // $createPostit->insertId
+
+            // $updatePostit->affectedRows
+            
+            $GLOBALS['TL_HEAD'][] = 'Content-Type: application/json';
+            
+            if ( 3 ) {
+                echo "true";
+            } else {
+                echo "false";
+            }
+            exit();
+            
+    }
+    
     private function updateDatabase() {
          
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -54,15 +75,17 @@ class GeneratePageListener
 
                         ")->execute($title, $yCoordinate, $xCoordinate, $pArticle, $bgColor, $postItId);
 
+                        $this->checkResponse();
+                        
                     } elseif ( $postItId === "postit_new" ) {
 
                         $createPostit = \Contao\Database::getInstance()->prepare("
 
-                            INSERT INTO tl_frontendnotes (tstamp, title, yCoordinate, xCoordinate, pArticle, bgColor, userinfo,page)
-                            VALUES (?, ?,?,?,?,?,?,?); 
+                            INSERT INTO tl_frontendnotes (tstamp, title, yCoordinate, xCoordinate, pArticle, bgColor, userinfo,page,user)
+                            VALUES (?,?,?,?,?,?,?,?,?); 
 
-                        ")->execute($tstamp, $title, $yCoordinate, $xCoordinate, $pArticle, $bgColor, $userinfo, $pageId);
-
+                        ")->execute($tstamp, $title, $yCoordinate, $xCoordinate, $pArticle, $bgColor, $userinfo, $pageId, $this->tokenChecker->getBackendUsername());
+        
                     }
 
                 }
@@ -89,7 +112,7 @@ class GeneratePageListener
         
         $loadPostIt = \Contao\Database::getInstance()->prepare("
 
-            SELECT title,yCoordinate,xCoordinate,pArticle,id,bgColor
+            SELECT title,yCoordinate,xCoordinate,pArticle,id,bgColor,user
             FROM tl_frontendnotes 
             WHERE page = ?
 
@@ -106,24 +129,30 @@ class GeneratePageListener
             $xCoordinate = $loadPostIt->xCoordinate;
             $content = $loadPostIt->title;
             $bgColor = $loadPostIt->bgColor == '' ? 'wheat' : $loadPostIt->bgColor;
+            $author = $loadPostIt->user;
 
             $postits_html .= '
-            <div id="postit_'.$id.'" class="post-it" data-yCoordinate="'.$yCoordinate.'" data-xCoordinate="'.$xCoordinate.'" data-pArticle="'.$pid.'" data-bgcolor="'.$bgColor.'">
+            <div id="postit_'.$id.'" class="frontend-note saved" data-yCoordinate="'.$yCoordinate.'" data-xCoordinate="'.$xCoordinate.'" data-pArticle="'.$pid.'" data-bgcolor="'.$bgColor.'">
                 <div class="tape"></div>
+                <div class="author">von '.$author.':</div>
                 <div class="content">
                     <div class="title">
-                        <textarea>'.$content.'</textarea>
+                        <textarea onInput="saveable(`postit_'.$id.'`)">'.$content.'</textarea>
                       
                     </div>
                     <div class="settings-bar">
                         <div class="saveIcon" onclick="savePostItData(`postit_'.$id.'`)"> 
                             <i class="fa-solid fa-floppy-disk"></i> 
-                            <i class="fa-solid fa-floppy-disk"></i> 
                         </div>
-                        <div class="pi-color-palette" data-bgColor="wheat" data-pPostIt="postit_'.$id.'"></div>
-                        <div class="pi-color-palette" data-bgColor="red" data-pPostIt="postit_'.$id.'"></div>
-                        <div class="saveIcon" onclick="deletePostItData(`postit_'.$id.'`)"> 
-                            <i class="fa-solid fa-x"></i> 
+                        <div>
+                            <div class="fen-color-palette" data-bgColor="wheat" data-pPostIt="postit_'.$id.'"></div>
+                            <div class="fen-color-palette" data-bgColor="crimson" data-pPostIt="postit_'.$id.'"></div>
+                            <div class="fen-color-palette" data-bgColor="darkcyan" data-pPostIt="postit_'.$id.'"></div>
+                            
+                            
+                        </div>
+                        <div onclick="deletePostItData(`postit_'.$id.'`)" class="deleteIcon"> 
+                            <i class="fa-solid fa-xmark"></i>
                         </div>
                     </div>
                 </div>
@@ -136,9 +165,9 @@ class GeneratePageListener
         
         
         $toolbox_html = '
-            <div class="post-it-toolbox">
-                <div style="display:none" id="post-it-visibility-toggler"><i class="fa-solid fa-eye"></i></div>
-                <div id="post-it-new-element-icon"><i class="fa-solid fa-circle-plus"></i></div>
+            <div class="frontend-note-toolbox">
+                <div style="display:none" id="frontend-note-visibility-toggler"><i class="fa-solid fa-eye"></i></div>
+                <div id="frontend-note-new-element-icon"><i class="fa-solid fa-circle-plus"></i></div>
                 
             </div>
             
@@ -157,7 +186,8 @@ class GeneratePageListener
     {
 
         if ($this->tokenChecker->hasBackendUser()) { 
-            
+
+
             $this->updateDatabase();
             
             $pageId = $pageModel->id;

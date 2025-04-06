@@ -24,9 +24,13 @@ class tl_frontendnotes
     {
         // Load the page model
         $objPage = \Contao\PageModel::findByPk($row[$field]);
-                
-        $titleWithLink = "<a href='contao/preview?page=".$objPage->id."' target='blank'>".$objPage->title ."</a>";
-
+        
+        if ( isset ( $objPage->id ) ) {
+            
+            $titleWithLink = "<a href='contao/preview?page=".$objPage->id."' target='blank'>".$objPage->title ."</a>";
+            
+        }
+        
         // Return the title of the page if it exists, otherwise return the page ID
         return $objPage ? $titleWithLink : $group;
     }
