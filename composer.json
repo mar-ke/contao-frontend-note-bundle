@@ -10,6 +10,11 @@
             "homepage": "https://mar-ke.de"
         }
     ],
+    "require": {
+        "php": "^8.3",
+        "contao/conflicts": "@dev",
+        "contao/core-bundle": "^5.3"
+    },
     "autoload": {
         "psr-4": {
             "Marke\\FrontendNoteBundle\\": "src/"
