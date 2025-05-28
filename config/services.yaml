@@ -1,8 +1,0 @@
-services:
-    _defaults:
-        autoconfigure: true
-
-    marke_frontendnote.listener.generate_page:
-        class: Marke\FrontendNoteBundle\EventListener\GeneratePageListener
-        arguments:
-            - '@contao.security.token_checker'
