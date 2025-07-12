@@ -39,3 +39,8 @@
 
 ```bash
 composer require marke/frontend-note-bundle
+```
+Oder im Contao Manager suchen nach:
+```bash
+marke/frontend-note-bundle
+```
