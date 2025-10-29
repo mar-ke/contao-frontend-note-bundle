@@ -38,20 +38,17 @@
     position: fixed;
     top: 180px;
     right: 0;
-    background: #0000009e;
-    padding: 10px;
-    z-index: 10;
-    font-size: 25px;
-    color: white;
-}
-
-.frontend-note-toolbox {
-    position: fixed;
-    top: 180px;
-    right: 0;
-    background: #0006;
+    background: #000c;
     padding: 10px;
     z-index: 5;
+    font-size: 18px;
+    color: white;
+    cursor:pointer;
+    transition-duration: .3s;
+}
+
+.frontend-note-toolbox:hover {
+  box-shadow: 0 0 20px #0005;
 }
 
 .frontend-note .title textarea {
@@ -110,6 +107,12 @@
 }
 
 
+[data-bgcolor="crimson"] .fen-icon,
+[data-bgcolor="darkcyan"] .fen-icon,
+.frontend-note-toolbox .fen-icon  {
+  filter: invert(1);
+}
+
 .saveIcon {
     transition-duration: .3s;
 }
@@ -124,7 +127,7 @@
     to { rotate: 360deg; }
 }
 
-.frontend-note .fa-spinner {
+.frontend-note .fen-icon.--spinner {
     animation: spinnAnimation linear 2s infinite;
 }
 
@@ -142,3 +145,37 @@
   padding-top: 5px;
   margin-top: 5px;
 }
+
+/** icons **/
+
+.fen-icon {
+  display: inline-block;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  min-height: 1em;
+  min-width: 1em;
+}
+
+.fen-icon.--floppy {
+  background-image: url("/bundles/markefrontendnote/assets/icons/floppy-disk.svg");
+}
+
+.fen-icon.--spinner {
+  background-image: url("/bundles/markefrontendnote/assets/icons/spinner.svg");
+  height: 19px;
+  width: 19px;
+}
+
+.fen-icon.--circle-plus {
+  background-image: url("/bundles/markefrontendnote/assets/icons/circle-plus.svg");
+}
+
+.fen-icon.--xmark {
+  background-image: url("/bundles/markefrontendnote/assets/icons/xmark.svg");
+}
+
+#frontend-note-new-element-icon .fen-icon {
+  margin-right: 8px;
+}
+

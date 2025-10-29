@@ -1,8 +1,20 @@
 services:
     _defaults:
+        autowire: true
         autoconfigure: true
+        public: false
 
     marke_postit.listener.generate_page:
         class: Marke\FrontendNoteBundle\EventListener\GeneratePageListener
         arguments:
             - '@contao.security.token_checker'
+            
+    Marke\FrontendNoteBundle\Controller\:
+        resource: '../../Controller/'
+        tags: ['controller.service_arguments']
+        public: true
+        arguments:
+          - '@database_connection'
+          - '@contao.csrf.token_manager'
+          - '%contao.csrf_token_name%'
+          - '@contao.security.token_checker'

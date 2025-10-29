@@ -1,5 +1,12 @@
 let mouseOverTape = false;
 
+const is_preview = (window.location.pathname.includes('/preview.php/'))
+
+let url = window.location.origin+"/";
+if ( is_preview ) {
+  url += "preview.php/"
+}
+
 function setCookie(cname, cvalue) {
   const d = new Date();
   d.setTime(d.getTime() + (28*24*60*60*1000));
@@ -142,8 +149,6 @@ function positionPostIts() {
     });
 }
 
-
-
 // Funktion, um ein Element beweglich zu machen
 function enableDrag(postIt, article) {
     let isDragging = false;
@@ -256,7 +261,7 @@ function savePostItData(postItId) {
     const saveIcon = postIt.getElementsByClassName('saveIcon')[0];
     
     postIt.classList.add('saved')
-    saveIcon.innerHTML = '<i class="fa-solid fa-spinner"></i>' ;
+    saveIcon.innerHTML = '<span class="fen-icon --spinner"></span>' ;
     
     let id;
     
@@ -279,7 +284,12 @@ function savePostItData(postItId) {
 
     // URL mit den Parametern erstellen
     const params = `id=${id}&yCoordinate=${yCoordinate}&xCoordinate=${xCoordinate}&pArticle=${pArticle}&title=${title}&bgColor=${bgColor}&userinfo=${userinfo}&pageId=${pageId}&action=save`;
-    const url = `${window.location.href}?${params}`;
+    // const url = `${window.location.href}?${params}`;
+
+
+    
+    url += `_ajax/frontendnote?${params}`
+
 
     console.log(url);
 
@@ -291,12 +301,12 @@ function savePostItData(postItId) {
         if (!response.ok) {
             throw new Error(`Fehler beim Speichern: ${response.statusText}`);
         }
-        return response.text(); // Einfacher Text als Antwort
+        return response.json(); // Einfacher Text als Antwort
     })
     .then(responseData => {
-        if (responseData == "true") {
+        if (responseData.success === true) {
             
-            saveIcon.innerHTML = '<i class="fa-solid fa-floppy-disk"></i>' ;
+            saveIcon.innerHTML = '<span class="fen-icon --floppy"></span>' ;
             
         }
         
@@ -320,9 +330,9 @@ function deletePostItData(postItId) {
 
     // URL mit den Parametern erstellen
     const params = `id=${id}&action=delete`;
-    const url = `${window.location.href}?${params}`;
+    url += `_ajax/frontendnote?${params}`
 
-    postIt.getElementsByClassName('deleteIcon')[0].innerHTML = '<i class="fa-solid fa-spinner"></i>' ;
+    postIt.getElementsByClassName('deleteIcon')[0].innerHTML = '<span class="fen-icon --spinner"></span>' ;
     
     
 
@@ -399,7 +409,7 @@ const newPostItHTML = `
         </div>
         <div class="settings-bar">
             <div class="saveIcon" onclick="savePostItData('postit_new')">
-                <i class="fa-solid fa-floppy-disk"></i>
+                <span class="fen-icon --floppy"></span>
             </div>
         </div>
     </div>

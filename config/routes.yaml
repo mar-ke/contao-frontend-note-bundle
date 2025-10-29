@@ -1,0 +1,3 @@
+marke.contao_fen_bundle.controller:
+    resource: ../src/Controller
+    type: attribute
