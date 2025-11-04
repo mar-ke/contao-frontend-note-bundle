@@ -62,18 +62,17 @@ class AjaxDataController extends AbstractController
         if ( isset( $this->user_id ) ) {
 
             // Eingehende Daten aus den GET-Parametern lesen
-            $postItId = isset($_GET['id']) ? htmlspecialchars($_GET['id']) : '';
-            $yCoordinate = isset($_GET['yCoordinate']) ? floatval($_GET['yCoordinate']) : '';
-            $xCoordinate = isset($_GET['xCoordinate']) ? floatval($_GET['xCoordinate']) : '';
-            $pArticle = isset($_GET['pArticle']) ? htmlspecialchars($_GET['pArticle']) : '';
-            $title = isset($_GET['title']) ? htmlspecialchars($_GET['title']) : '';
-            $userinfo = isset($_GET['userinfo']) ? htmlspecialchars($_GET['userinfo']) : '';
-            $bgColor = isset($_GET['bgColor']) ? htmlspecialchars($_GET['bgColor']) : '';
-            $pageId = isset($_GET['pageId']) ? htmlspecialchars($_GET['pageId']) : '';
-            $action = isset($_GET['action']) ? htmlspecialchars($_GET['action']) : '';
+            $postItId = Input::get('id') ?: '';
+            $yCoordinate = Input::get('yCoordinate']) ?: '';
+            $xCoordinate = Input::get('xCoordinate']) ?: '';
+            $pArticle = Input::get('pArticle']) ?: '';
+            $title = Input::get('title']) ?: '';
+            $userinfo = Input::get('userinfo']) ?: '';
+            $bgColor = Input::get('bgColor']) ?: '';
+            $pageId = Input::get('pageId']) ?: '';
+            $action = Input::get('action']) ?: '';
             
             $tstamp = time();
-
                 
             if ( $action === "save") {
             
