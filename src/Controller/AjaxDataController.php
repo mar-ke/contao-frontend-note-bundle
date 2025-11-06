@@ -63,14 +63,14 @@ class AjaxDataController extends AbstractController
 
             // Eingehende Daten aus den GET-Parametern lesen
             $postItId = Input::get('id') ?: '';
-            $yCoordinate = Input::get('yCoordinate']) ?: '';
-            $xCoordinate = Input::get('xCoordinate']) ?: '';
-            $pArticle = Input::get('pArticle']) ?: '';
-            $title = Input::get('title']) ?: '';
-            $userinfo = Input::get('userinfo']) ?: '';
-            $bgColor = Input::get('bgColor']) ?: '';
-            $pageId = Input::get('pageId']) ?: '';
-            $action = Input::get('action']) ?: '';
+            $yCoordinate = Input::get('yCoordinate') ?: '';
+            $xCoordinate = Input::get('xCoordinate') ?: '';
+            $pArticle = Input::get('pArticle') ?: '';
+            $title = Input::get('title') ?: '';
+            $userinfo = Input::get('userinfo') ?: '';
+            $bgColor = Input::get('bgColor') ?: '';
+            $pageId = Input::get('pageId') ?: '';
+            $action = Input::get('action') ?: '';
             
             $tstamp = time();
                 
