@@ -62,15 +62,15 @@ class AjaxDataController extends AbstractController
         if ( isset( $this->user_id ) ) {
 
             // Eingehende Daten aus den GET-Parametern lesen
-            $postItId = Input::get('id') ?: '';
-            $yCoordinate = Input::get('yCoordinate') ?: '';
-            $xCoordinate = Input::get('xCoordinate') ?: '';
-            $pArticle = Input::get('pArticle') ?: '';
-            $title = Input::get('title') ?: '';
-            $userinfo = Input::get('userinfo') ?: '';
-            $bgColor = Input::get('bgColor') ?: '';
-            $pageId = Input::get('pageId') ?: '';
-            $action = Input::get('action') ?: '';
+            $postItId = \Contao\Input::get('id') ?: '';
+            $yCoordinate = \Contao\Input::get('yCoordinate') ?: '';
+            $xCoordinate = \Contao\Input::get('xCoordinate') ?: '';
+            $pArticle = \Contao\Input::get('pArticle') ?: '';
+            $title = \Contao\Input::get('title') ?: '';
+            $userinfo = \Contao\Input::get('userinfo') ?: '';
+            $bgColor = \Contao\Input::get('bgColor') ?: '';
+            $pageId = \Contao\Input::get('pageId') ?: '';
+            $action = \Contao\Input::get('action') ?: '';
             
             $tstamp = time();
                 
